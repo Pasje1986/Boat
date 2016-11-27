@@ -77,7 +77,8 @@ video::-webkit-media-controls {
   display:none !important;
 }
 
-input[type=button]{
+#start{
+    background-color: #4CAF50;
     height: 200px;
     width: 49%;
     font-size: 100px;
@@ -85,12 +86,13 @@ input[type=button]{
     color: white;
 }
 
-#start{
-    background-color: #4CAF50;
-}
-
 #stop{
     background-color: #f44336;
+    height: 200px;
+    width: 49%;
+    font-size: 100px;
+    border-radius: 12px;
+    color: white;
 }
 
 /* Add Animation */

@@ -1,6 +1,8 @@
 Boat Project
 ============
 
+Boat project is build for a school project.
+
 This a project based on:
 
 #### shane tully (shanetully.com)

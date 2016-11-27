@@ -2,6 +2,7 @@ var localVideo;
 var remoteVideo;
 var peerConnection;
 var uuid;
+var text;
 
 // Get the modal
 var modal = document.getElementById('myModal');
@@ -43,6 +44,7 @@ function pageReady() {
     remoteVideo = document.getElementById('remoteVideo');
 
     serverConnection = new WebSocket('wss://' + window.location.hostname + ':8443');
+    //serverConnection = new WebSocket('wss://213.125.24.100:8443');
     serverConnection.onmessage = gotMessageFromServer;
 
     Listing.style.display = "block";
@@ -98,6 +100,17 @@ function forced(isCaller) {
     }
 }
 
+function red(isCaller, txt) {
+    peerConnection = new RTCPeerConnection(peerConnectionConfig);
+    peerConnection.onicecandidate = gotIceCandidate;
+
+    if (isCaller) {
+        text = txt;
+        peerConnection.createOffer().then(createdRedDescription).catch(errorHandler);
+    }
+}
+
+
 function gotMessageFromServer(message) {
     if(!peerConnection) start(false);
 
@@ -150,6 +163,13 @@ function createdForcedDescription(description) {
     console.log('got description');
     peerConnection.setLocalDescription(description).then(function () {
         serverConnection.send(JSON.stringify({ 'sdp': peerConnection.localDescription, 'uuid': uuid, 'info': 'forced' }));
+    }).catch(errorHandler);
+}
+
+function createdRedDescription(description) {
+    console.log('got description');
+    peerConnection.setLocalDescription(description).then(function () {
+        serverConnection.send(JSON.stringify({ 'sdp': peerConnection.localDescription, 'uuid': uuid, 'info': 'red', 'text': text }));
     }).catch(errorHandler);
 }
 
