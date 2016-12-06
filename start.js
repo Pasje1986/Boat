@@ -110,6 +110,15 @@ function red(isCaller, txt) {
     }
 }
 
+function cancelled(isCaller) {
+    peerConnection = new RTCPeerConnection(peerConnectionConfig);
+    peerConnection.onicecandidate = gotIceCandidate;
+
+    if (isCaller) {
+        peerConnection.createOffer().then(createdCancelledDescription).catch(errorHandler);
+    }
+}
+
 
 function gotMessageFromServer(message) {
     if(!peerConnection) start(false);
@@ -170,6 +179,13 @@ function createdRedDescription(description) {
     console.log('got description');
     peerConnection.setLocalDescription(description).then(function () {
         serverConnection.send(JSON.stringify({ 'sdp': peerConnection.localDescription, 'uuid': uuid, 'info': 'red', 'text': text }));
+    }).catch(errorHandler);
+}
+
+function createdCancelledDescription(description) {
+    console.log('got description');
+    peerConnection.setLocalDescription(description).then(function () {
+        serverConnection.send(JSON.stringify({ 'sdp': peerConnection.localDescription, 'uuid': uuid, 'info': 'canc', 'text': "video geweigerd" }));
     }).catch(errorHandler);
 }
 
