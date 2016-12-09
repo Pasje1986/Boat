@@ -3,6 +3,7 @@ var remoteVideo;
 var peerConnection;
 var uuid;
 var text;
+var userstream;
 
 // Get the modal
 var modal = document.getElementById('myModal');
@@ -64,7 +65,7 @@ function pageReady() {
 }
 
 function getUserMediaSuccess(stream) {
-    localStream = stream;
+    userstream = stream;
     //localVideo.src = window.URL.createObjectURL(stream);
 }
 
@@ -72,7 +73,7 @@ function start(isCaller) {
     peerConnection = new RTCPeerConnection(peerConnectionConfig);
     peerConnection.onicecandidate = gotIceCandidate;
     peerConnection.onaddstream = gotRemoteStream;
-    peerConnection.addStream(localStream);
+    peerConnection.addStream(userstream);
 
     if(isCaller) {
         peerConnection.createOffer().then(createdDescription).catch(errorHandler);
@@ -92,11 +93,27 @@ function forced(isCaller) {
     peerConnection = new RTCPeerConnection(peerConnectionConfig);
     peerConnection.onicecandidate = gotIceCandidate;
     peerConnection.onaddstream = gotRemoteStream;
-    peerConnection.addStream(localStream);
+    peerConnection.addStream(userstream);
 
     if (isCaller) {
         peerConnection.createOffer().then(createdForcedDescription).catch(errorHandler);
         eye.style.display = "block";
+    }
+}
+
+function startAudio(isCaller) {
+    // delete video from stream
+    var videoTrack = userstream.getVideoTracks();
+    userstream.removeTrack(videoTrack[0]);
+
+    peerConnection = new RTCPeerConnection(peerConnectionConfig);
+    peerConnection.onicecandidate = gotIceCandidate;
+    peerConnection.onaddstream = gotRemoteStream;
+    peerConnection.addStream(userstream);
+
+    if(isCaller) {
+        peerConnection.createOffer().then(createdDescription).catch(errorHandler);
+        modal.style.display = "none";
     }
 }
 

@@ -19,7 +19,7 @@
 <input type="button" id="cancelled" onclick="cancelled(true)" value="cancelled"></input>
 
 <br />
-<video id="remoteVideo" autoplay style="width:0%" onloadeddata="style='width:$( window ).width();; height:$( window ).height();'" onclick="location.reload();"></video>
+<video controls poster="audio-icon.jpg" id="remoteVideo" autoplay style="width:0%" onloadeddata="style='width:$( window ).width();; height:$( window ).height();'" onclick="location.reload();"></video>
 
 
 
@@ -35,6 +35,7 @@
     <div class="modal-body">
         <p>
             <input type="button" class="btn" id="start" onclick="start(true)" value="V"></input>
+            <input type="button" class="btn" id="startAudio" onclick="startAudio(true)" value="A"></input>
             <input type="button" class="btn" id="stop" onclick="modal.style.display = 'none';remoteVideo.src = '';cancelled(true)" value="X"></input>
         </p>
 

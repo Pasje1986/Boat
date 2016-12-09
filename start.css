@@ -80,7 +80,7 @@ video::-webkit-media-controls {
 #start{
     background-color: #4CAF50;
     height: 200px;
-    width: 49%;
+    width: 33%;
     font-size: 100px;
     border-radius: 12px;
     color: white;
@@ -89,7 +89,16 @@ video::-webkit-media-controls {
 #stop{
     background-color: #f44336;
     height: 200px;
-    width: 49%;
+    width: 33%;
+    font-size: 100px;
+    border-radius: 12px;
+    color: white;
+}
+
+#startAudio{
+    background-color: #FFA500;
+    height: 200px;
+    width: 33%;
     font-size: 100px;
     border-radius: 12px;
     color: white;
