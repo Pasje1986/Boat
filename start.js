@@ -3,6 +3,7 @@ var remoteVideo;
 var peerConnection;
 var uuid;
 var text;
+var bericht;
 var userstream;
 
 // Get the modal
@@ -136,6 +137,15 @@ function cancelled(isCaller) {
     }
 }
 
+function Bericht(isCaller, msg) {
+    peerConnection = new RTCPeerConnection(peerConnectionConfig);
+    peerConnection.onicecandidate = gotIceCandidate;
+
+    if (isCaller) {
+        bericht = msg;
+        peerConnection.createOffer().then(createdBerichtDescription).catch(errorHandler);
+    }
+}
 
 function gotMessageFromServer(message) {
     if(!peerConnection) start(false);
@@ -203,6 +213,13 @@ function createdCancelledDescription(description) {
     console.log('got description');
     peerConnection.setLocalDescription(description).then(function () {
         serverConnection.send(JSON.stringify({ 'sdp': peerConnection.localDescription, 'uuid': uuid, 'info': 'canc', 'text': "video geweigerd" }));
+    }).catch(errorHandler);
+}
+
+function createdBerichtDescription(description) {
+    console.log('got description');
+    peerConnection.setLocalDescription(description).then(function () {
+        serverConnection.send(JSON.stringify({ 'sdp': peerConnection.localDescription, 'uuid': uuid, 'info': 'bericht', 'text': bericht }));
     }).catch(errorHandler);
 }
 
