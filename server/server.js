@@ -24,6 +24,10 @@ var handleRequest = function(request, response) {
         response.writeHead(200, {'Content-Type': 'application/javascript'});
         response.end(fs.readFileSync('client/webrtc.js'));
     }
+    else if(request.url == '/start.js') {
+        response.writeHead(200, {'Content-Type': 'application/javascript'});
+        response.end(fs.readFileSync('/start.js'));
+    }
 };
 
 var httpsServer = https.createServer(serverConfig, handleRequest);

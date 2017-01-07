@@ -160,14 +160,18 @@ function gotMessageFromServer(message) {
             // Only create answers in response to offers
             if(signal.sdp.type == 'offer') {
                 peerConnection.createAnswer().then(createdDescription).catch(errorHandler);
-                    if(signal.info == 'forced'){
-                        var audio = new Audio('sounds/Emergency-alarm.mp3');
-                        audio.volume = .8
-                        audio.play();
-                        //wait 3 sec, beter voor server afhandeling is async!!
-                        sleep(3000);
-                        forced(true);
-                        eye.style.display = "block";
+                if(signal.info == 'forced'){
+                    var audio = new Audio('sounds/Emergency-alarm.mp3');
+                    audio.volume = .8
+                    audio.play();
+                    //wait 3 sec, beter voor server afhandeling is async!!
+                    sleep(3000);
+                    forced(true);
+                    eye.style.display = "block";
+                }else if (signal.info == 'bericht') {
+                    if (signal.text == 'Video gestopt') {
+                        location.reload();
+                    }
                 }else{
                     var audio = new Audio('sounds/RingSound.mp3');
                     audio.volume = .4
